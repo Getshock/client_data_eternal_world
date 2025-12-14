@@ -5,7 +5,22 @@ local monsterList
 local collecting = false
 local buffer = {}
 local fullMonsterList = {}
+local characterMarkers = {} -- Armazena marcadores por personagem: characterMarkers[charName] = {monster=true}
 local currentSort = "name_asc"
+
+------------------------------------------------------------
+-- Helper: Retorna tabela de marcadores do personagem atual
+------------------------------------------------------------
+local function getCurrentMarkers()
+    local player = g_game.getLocalPlayer()
+    if not player then return {} end
+    
+    local name = player:getName()
+    if not characterMarkers[name] then
+        characterMarkers[name] = {}
+    end
+    return characterMarkers[name]
+end
 
 function init()
     print("[TEST] Loaded!")
@@ -120,6 +135,32 @@ function Test.onTextMessage(mode, text)
 end
 
 ------------------------------------------------------------
+-- Alterna marcador (max 4)
+------------------------------------------------------------
+function Test.toggleMarker(name)
+    if not name then return end
+
+    local markers = getCurrentMarkers()
+
+    if markers[name] then
+        markers[name] = nil
+    else
+        -- Contar quantos já estão marcados
+        local count = 0
+        for _ in pairs(markers) do count = count + 1 end
+        
+        if count >= 4 then
+            -- Feedback visual ou log
+            return
+        end
+        markers[name] = true
+    end
+    
+    -- Reordenar e atualizar a lista
+    Test.sortAndDisplay()
+end
+
+------------------------------------------------------------
 -- Ordena e atualiza a lista
 ------------------------------------------------------------
 function Test.sortAndDisplay()
@@ -129,6 +170,15 @@ function Test.sortAndDisplay()
     end
 
     table.sort(fullMonsterList, function(a, b)
+        local markers = getCurrentMarkers()
+        -- 1. Marcados primeiro
+        local markedA = markers[a.name] and 1 or 0
+        local markedB = markers[b.name] and 1 or 0
+        if markedA ~= markedB then
+            return markedA > markedB
+        end
+
+        -- 2. Ordenação normal
         if currentSort == "name_asc" then
             return (a.name or "") < (b.name or "")
         elseif currentSort == "name_desc" then
@@ -187,6 +237,22 @@ function Test.updateList(list)
             local pbBg      = block:getChildById("progressBarBg")
             local pbFill    = pbBg and pbBg:getChildById("progressBarFill")
             local pbText    = pbBg and pbBg:getChildById("progressText")
+            local markerBtn = block:getChildById("markerButton")
+
+            -- Configurar botão de marcador
+            if markerBtn then
+                local markers = getCurrentMarkers()
+                local isMarked = markers[m.name]
+                if isMarked then
+                    markerBtn:setBackgroundColor("#FFFF00") -- Amarelo se marcado
+                else
+                    markerBtn:setBackgroundColor("#333333") -- Padrão
+                end
+                
+                markerBtn.onClick = function()
+                    Test.toggleMarker(m.name)
+                end
+            end
 
             -- Preencher dados
             if icon then

@@ -17,6 +17,20 @@ BestiaryCardBlock < UIWidget
     font: verdana-11px-rounded
     color: #FFD700
 
+  UIButton
+    id: markerButton
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 5
+    margin-right: 5
+    width: 20
+    height: 20
+    text: " "
+    background-color: #333333
+    border-width: 1
+    border-color: #555555
+    tooltip: Marcar/Desmarcar (Max 4)
+
   UIWidget
     id: icon
     anchors.top: nameLabel.bottom
