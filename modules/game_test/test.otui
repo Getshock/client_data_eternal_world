@@ -1,6 +1,6 @@
 MainWindow
   id: testWindow
-  size: 960 600
+  size: 920 600
   text: "Monster Collection"
   visible: false
   padding: 10
