@@ -28,7 +28,7 @@ MainWindow
     vertical-scrollbar: monsterScrollbar
     layout:
       type: grid
-      cell-size: 290 100
+      cell-size: 290 110
       cell-spacing: 5
       flow: true
 

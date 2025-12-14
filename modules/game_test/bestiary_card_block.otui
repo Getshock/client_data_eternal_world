@@ -1,6 +1,6 @@
 BestiaryCardBlock < UIWidget
   width: 290
-  height: 100
+  height: 110
   background-color: #363636
   border-width: 2
   border-color: #555555
@@ -58,6 +58,17 @@ BestiaryCardBlock < UIWidget
       color: #aaaaaa
       text-align: left
 
+    // Kills (Novo Label)
+    UILabel
+      id: killsLabel
+      anchors.left: iconBg.right
+      anchors.top: cycleLabel.bottom
+      margin-left: 10
+      margin-top: 5
+      font: verdana-10px
+      color: #bbbbbb
+      text-align: left
+
     // Barra de Progresso Background
     UIWidget
       id: progressBarBg
@@ -66,8 +77,8 @@ BestiaryCardBlock < UIWidget
       anchors.bottom: parent.bottom
       margin-left: 10
       margin-right: 10
-      margin-bottom: 12
-      height: 14
+      margin-bottom: 15
+      height: 18
       background-color: #111111
       border-width: 1
       border-color: #555555
@@ -87,10 +98,10 @@ BestiaryCardBlock < UIWidget
         id: progressText
         anchors.fill: parent
         text-align: center
-        font: verdana-9px-rounded
+        font: verdana-11px-rounded
         color: #ffffff
         text: "0%"
-        margin-top: 1
+        margin-top: 2
 
     // Botão de Marcador (Estilo "Pin" ou similar)
     UIButton

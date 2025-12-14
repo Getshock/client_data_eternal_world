@@ -239,6 +239,7 @@ function Test.updateList(list)
             local icon      = block:getChildById("innerPanel"):getChildById("iconBg"):getChildById("icon")
             local name      = block:getChildById("innerPanel"):getChildById("nameLabel")
             local cycle     = block:getChildById("innerPanel"):getChildById("cycleLabel")
+            local kills     = block:getChildById("innerPanel"):getChildById("killsLabel")
             local pbBg      = block:getChildById("innerPanel"):getChildById("progressBarBg")
             local pbFill    = pbBg and pbBg:getChildById("progressBarFill")
             local pbText    = pbBg and pbBg:getChildById("progressText")
@@ -286,6 +287,24 @@ function Test.updateList(list)
 
             if cycle then
                 cycle:setText(string.format("Ciclo: %d / %d", m.cycle or 0, m.maxCycles or 0))
+            end
+
+            if kills then
+                -- Assumindo que m.progress é o atual e precisamos saber o alvo
+                -- Se não tiver alvo explícito, teremos que inferir ou mostrar apenas o atual
+                -- Formato: 53 / 100
+                -- Vamos tentar achar um 'target' ou 'maxKills' no objeto 'm', 
+                -- se não tiver, mostra só "Kills: 53"
+                local currentKills = m.progress or 0
+                local targetKills = m.target or "?" 
+                
+                -- Se não tiver target vindo do JSON, podemos tentar calcular baseado na porcentagem se ela for > 0
+                -- Ex: progress=50, percent=50 => target=100
+                if targetKills == "?" and (m.percent or 0) > 0 and currentKills > 0 then
+                    targetKills = math.floor(currentKills * 100 / m.percent)
+                end
+                
+                kills:setText(string.format("%s / %s", currentKills, targetKills))
             end
 
             if pbFill and pbText then
