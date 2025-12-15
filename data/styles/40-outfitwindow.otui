@@ -467,6 +467,26 @@ OutfitWindow < MainWindow
         spacing: 2
       
       Panel
+        id: outfit
+        height: 20
+
+        CheckBox
+          id: check
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          image-source: /images/ui/outfits/checkbox_round
+          text-offset: 15 0
+          text: Outfit:
+          width: 84
+        
+        FlatPanel
+          id: name
+          anchors.top: parent.top
+          anchors.bottom: parent.bottom
+          anchors.left: prev.right
+          anchors.right: parent.right
+      
+      Panel
         id: preset
         height: 20
 
@@ -486,26 +506,6 @@ OutfitWindow < MainWindow
           anchors.left: prev.right
           anchors.right: parent.right
           text: -
-      
-      Panel
-        id: outfit
-        height: 20
-
-        CheckBox
-          id: check
-          anchors.verticalCenter: parent.verticalCenter
-          anchors.left: parent.left
-          image-source: /images/ui/outfits/checkbox_round
-          text-offset: 15 0
-          text: Outfit:
-          width: 84
-        
-        FlatPanel
-          id: name
-          anchors.top: parent.top
-          anchors.bottom: parent.bottom
-          anchors.left: prev.right
-          anchors.right: parent.right
       
       Panel
         id: mount

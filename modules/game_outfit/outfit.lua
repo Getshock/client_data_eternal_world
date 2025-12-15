@@ -473,7 +473,7 @@ function create(player, outfitList, creatureMount, mountList, familiarList, wing
     appearanceGroup:addWidget(window.appearance.settings.effects.check)
     appearanceGroup:addWidget(window.appearance.settings.title.check)
     appearanceGroup.onSelectionChange = onAppearanceChange
-    appearanceGroup:selectWidget(window.appearance.settings.preset.check)
+    appearanceGroup:selectWidget(window.appearance.settings.outfit.check)
 
     colorModeGroup = UIRadioGroup.create()
     colorModeGroup:addWidget(window.appearance.colorMode.head)
