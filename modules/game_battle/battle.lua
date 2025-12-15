@@ -1466,10 +1466,14 @@ function init()
     battlePanel = mainInstance.panel
     filterPanel = mainInstance.filterPanel
     toggleFilterButton = mainInstance.toggleFilterButton
-
+    
     -- Setup keybind
     Keybind.new("Windows", "Show/hide battle list", "Ctrl+B", "")
     Keybind.bind("Windows", "Show/hide battle list", {{ type = KEY_DOWN, callback = toggle }})
+    Keybind.new("Battle", "Attack next in battle list", { [CHAT_MODE.ON] = "", [CHAT_MODE.OFF] = "Space" }, "")
+    Keybind.bind("Battle", "Attack next in battle list", {{ type = KEY_DOWN, callback = function() attackNext() end }})
+    Keybind.new("Battle", "Attack previous in battle list", { [CHAT_MODE.ON] = "", [CHAT_MODE.OFF] = "Shift+Space" }, "")
+    Keybind.bind("Battle", "Attack previous in battle list", {{ type = KEY_DOWN, callback = function() attackNext(true) end }})
 
     -- Setup scrollbar - use default MiniWindow behavior
     local scrollbar = battleWindow:getChildById('miniwindowScrollBar')
@@ -2589,8 +2593,10 @@ function terminate() -- Terminating the Module (unload)
     mouseWidget = nil
     filterPanel = nil
     toggleFilterButton = nil
-
+    
     Keybind.delete("Windows", "Show/hide battle list")
+    Keybind.delete("Battle", "Attack next in battle list")
+    Keybind.delete("Battle", "Attack previous in battle list")
 
     disconnect(g_game, {
         onAttackingCreatureChange = onAttack,
