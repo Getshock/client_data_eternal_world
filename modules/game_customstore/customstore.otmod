@@ -1,0 +1,9 @@
+Module
+  name: game_customstore
+  description: Custom Store System
+  author: Trae
+  website: 
+  sandboxed: true
+  scripts: [ customstore ]
+  @onLoad: init()
+  @onUnload: terminate()

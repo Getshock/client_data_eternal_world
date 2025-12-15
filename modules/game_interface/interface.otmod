@@ -46,11 +46,11 @@ Module
     - game_screenshot
     - game_highscore
     - game_blessing
-    - game_store
     - game_quickloot
     - game_cyclopedia
     - game_creatureinformation
     - game_rewardwall
     - game_test
+    - game_customstore
   @onLoad: init()
   @onUnload: terminate()

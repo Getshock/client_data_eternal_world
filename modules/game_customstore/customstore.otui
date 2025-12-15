@@ -1,0 +1,262 @@
+StoreOffer < UIWidget
+  background-color: alpha
+  size: 300 64
+  border-width: 1
+  border-color: #00000000
+  focusable: true
+
+  $focus:
+    background-color: #ffffff11
+    border-color: #ffffff44
+
+  $checked:
+    background-color: #ffffff22
+    border-color: #ffffff88
+
+  Item
+    id: item
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 10
+    width: 32
+    height: 32
+    virtual: true
+
+  Label
+    id: name
+    anchors.left: item.right
+    anchors.top: item.top
+    anchors.right: parent.right
+    margin-left: 10
+    text-align: left
+    font: verdana-11px-rounded
+    text-wrap: true
+
+  Label
+    id: price
+    anchors.left: item.right
+    anchors.top: name.bottom
+    anchors.right: parent.right
+    margin-left: 10
+    margin-top: 2
+    text-align: left
+    color: #ffd700
+    font: verdana-11px-rounded
+
+CategoryButton < UIWidget
+  height: 30
+  background-color: alpha
+  text-align: left
+  margin-left: 2
+  font: verdana-11px-rounded
+  focusable: true
+  text-offset: 10 0
+  
+  $focus:
+    background-color: #ffffff22
+    color: #ffffff
+
+  $checked:
+    background-color: #ffffff44
+    color: #ffffff
+
+CustomStoreWindow < MainWindow
+  id: customStoreWindow
+  !text: tr('Store')
+  size: 850 550
+  image-source: images/window
+  @onEscape: modules.game_customstore.toggle()
+
+  // Left Sidebar: Categories
+  UIWidget
+    id: leftPanel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    width: 180
+    margin-bottom: 30
+    background-color: #00000022
+    border-width: 1
+    border-color: #00000044
+
+    Label
+      text: Categories
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 20
+      text-align: center
+      font: verdana-11px-rounded
+      background-color: #00000044
+      margin: 1
+
+    ScrollablePanel
+      id: categoryList
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      vertical-scrollbar: categoryListScroll
+      margin: 1
+      layout:
+        type: verticalBox
+        spacing: 1
+
+    VerticalScrollBar
+      id: categoryListScroll
+      anchors.top: categoryList.top
+      anchors.bottom: categoryList.bottom
+      anchors.right: categoryList.right
+      step: 14
+      pixels-scroll: true
+      margin-right: 1
+
+  // Middle Panel: Offers List
+  UIWidget
+    id: middlePanel
+    anchors.top: parent.top
+    anchors.left: leftPanel.right
+    anchors.bottom: parent.bottom
+    width: 320
+    margin-left: 10
+    margin-bottom: 30
+    background-color: #00000022
+    border-width: 1
+    border-color: #00000044
+
+    Label
+      text: Offers
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 20
+      text-align: center
+      font: verdana-11px-rounded
+      background-color: #00000044
+      margin: 1
+
+    ScrollablePanel
+      id: offersPanel
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      vertical-scrollbar: offersPanelScroll
+      margin: 1
+      layout:
+        type: verticalBox
+        spacing: 2
+
+    VerticalScrollBar
+      id: offersPanelScroll
+      anchors.top: offersPanel.top
+      anchors.bottom: offersPanel.bottom
+      anchors.right: offersPanel.right
+      step: 32
+      pixels-scroll: true
+
+  // Right Panel: Details
+  UIWidget
+    id: detailsPanel
+    anchors.top: parent.top
+    anchors.left: middlePanel.right
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-left: 10
+    margin-bottom: 30
+    background-color: #00000022
+    border-width: 1
+    border-color: #00000044
+
+    Label
+      text: Details
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 20
+      text-align: center
+      font: verdana-11px-rounded
+      background-color: #00000044
+
+    // Selected Item Display
+    Item
+      id: selectedItemPreview
+      anchors.top: prev.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-top: 30
+      width: 64
+      height: 64
+      virtual: true
+      visible: false
+
+    Label
+      id: selectedItemName
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 15
+      text-align: center
+      font: verdana-11px-rounded
+      text: "Select an offer"
+
+    Label
+      id: selectedItemDescription
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: buyButton.top
+      margin-top: 20
+      margin-left: 10
+      margin-right: 10
+      margin-bottom: 20
+      text-align: top
+      text-wrap: true
+      font: verdana-11px-monochrome
+      color: #aaaaaa
+
+    Label
+      id: selectedItemPrice
+      anchors.bottom: buyButton.top
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-bottom: 10
+      text-align: center
+      font: verdana-11px-rounded
+      color: #ffd700
+      text: ""
+
+    Button
+      id: buyButton
+      text: Buy
+      anchors.bottom: parent.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-bottom: 20
+      width: 120
+      enabled: false
+
+  // Bottom Bar
+  UIWidget
+    id: bottomBar
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: 25
+    background-color: #00000066
+
+    Label
+      id: balanceLabel
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: 10
+      text: "Balance: Loading..."
+      font: verdana-11px-rounded
+      color: #ffd700
+
+    Button
+      id: closeButton
+      text: Close
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 5
+      width: 60
+      height: 20
+      @onClick: modules.game_customstore.toggle()

@@ -171,7 +171,7 @@ optionsController = Controller:new()
 optionsController:setUI('mainoptionspanel', modules.game_interface.getMainRightPanel())
 
 function optionsController:onInit()
-    createButton_large('Store shop', tr('Store shop'), '/images/options/store_large', toggleStore,
+    createButton_large('Store Shop', tr('Store Shop'), '/images/options/store_large', function() modules.game_customstore.toggle() end,
     false, 8)
 
     if not optionPanel then
