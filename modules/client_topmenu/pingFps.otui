@@ -16,7 +16,7 @@ pingFpsLabel < UIWidget
   size: 120 14
   anchors.top: parent.bottom
   anchors.centerIn: parent
-  margin-left: 65
+  margin-left: 25
   phantom: true
   font: verdana-11px-rounded
   focusable: false
@@ -27,7 +27,7 @@ Panel
   anchors.left: parent.left
   height: 60
   width: 150
-  margin-top: 35
+  margin-top: 4
   Panel
     anchors.top: parent.top
     anchors.left: parent.left
