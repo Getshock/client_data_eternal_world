@@ -1,262 +1,457 @@
-StoreOffer < UIWidget
-  background-color: alpha
-  size: 300 64
+OfferButton < UIWidget
+  background-color: #222222
+  size: 150 64
   border-width: 1
-  border-color: #00000000
+  border-color: #000000
   focusable: true
-
+  
   $focus:
-    background-color: #ffffff11
-    border-color: #ffffff44
+    border-color: #ffffff
+    background-color: #333333
 
-  $checked:
-    background-color: #ffffff22
-    border-color: #ffffff88
-
-  Item
+  UIItem
     id: item
+    size: 32 32
     anchors.left: parent.left
     anchors.verticalCenter: parent.verticalCenter
     margin-left: 10
-    width: 32
-    height: 32
     virtual: true
 
   Label
     id: name
     anchors.left: item.right
-    anchors.top: item.top
+    anchors.top: parent.top
     anchors.right: parent.right
     margin-left: 10
+    margin-top: 8
     text-align: left
     font: verdana-11px-rounded
-    text-wrap: true
+    color: #e0e0e0
+    text-wrap: false
+    text-auto-resize: true
 
   Label
     id: price
-    anchors.left: item.right
-    anchors.top: name.bottom
     anchors.right: parent.right
-    margin-left: 10
-    margin-top: 2
-    text-align: left
+    anchors.bottom: parent.bottom
+    margin-right: 25
+    margin-bottom: 8
+    text-align: right
     color: #ffd700
     font: verdana-11px-rounded
+    
+  UIItem
+    id: coinIcon
+    size: 12 12
+    item-id: 2160
+    virtual: true
+    anchors.left: price.right
+    anchors.verticalCenter: price.verticalCenter
+    margin-left: 3
+    phantom: true
+
+HomeOfferWidget < UIWidget
+  background-color: #222222
+  border-width: 1
+  border-color: #000000
+  size: 220 64
+  focusable: true
+  
+  $focus:
+    border-color: #aaaaaa
+    background-color: #333333
+
+  UIItem
+    id: item
+    size: 32 32
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 10
+    virtual: true
+    
+  Label
+    id: name
+    anchors.left: item.right
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-left: 10
+    margin-top: 10
+    font: Verdana Bold-11px
+    color: #55ff55
+    text-align: left
+    
+  Label
+    id: price
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-right: 25
+    margin-bottom: 10
+    font: verdana-11px-rounded
+    color: #ffd700
+    text-align: right
+    
+  UIItem
+    id: coinIcon
+    size: 12 12
+    item-id: 2160
+    virtual: true
+    anchors.left: price.right
+    anchors.verticalCenter: price.verticalCenter
+    margin-left: 3
+    phantom: true
 
 CategoryButton < UIWidget
-  height: 30
+  height: 32
   background-color: alpha
-  text-align: left
-  margin-left: 2
-  font: verdana-11px-rounded
+  border-width: 0
   focusable: true
-  text-offset: 10 0
   
   $focus:
     background-color: #ffffff22
-    color: #ffffff
+
+  UIItem
+    id: icon
+    size: 20 20
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 5
+    virtual: true
+    phantom: true
+
+  Label
+    id: text
+    anchors.left: icon.right
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 5
+    font: verdana-11px-rounded
+    color: #aaaaaa
+    text-align: left
+
+  $hover:
+    background-color: #ffffff11
+    
+    Label
+      color: #ffffff
 
   $checked:
-    background-color: #ffffff44
-    color: #ffffff
+    background-color: #ffffff22
+    
+    Label
+      color: #ffd700
+
+// Main Window Layout
 
 CustomStoreWindow < MainWindow
   id: customStoreWindow
   !text: tr('Store')
-  size: 850 550
-  image-source: images/window
+  size: 900 600
   @onEscape: modules.game_customstore.toggle()
 
-  // Left Sidebar: Categories
+  // 1. LEFT SIDEBAR (Categories)
   UIWidget
     id: leftPanel
+    width: 180
     anchors.top: parent.top
     anchors.left: parent.left
-    anchors.bottom: parent.bottom
-    width: 180
-    margin-bottom: 30
+    anchors.bottom: bottomPanel.top
+    margin-bottom: 5
     background-color: #00000022
     border-width: 1
     border-color: #00000044
 
-    Label
-      text: Categories
+    UIWidget
+      id: homeButton
+      height: 32
       anchors.top: parent.top
       anchors.left: parent.left
       anchors.right: parent.right
-      height: 20
-      text-align: center
-      font: verdana-11px-rounded
-      background-color: #00000044
-      margin: 1
+      background-color: alpha
+      focusable: true
+      
+      $focus:
+        background-color: #ffffff22
+        
+      UIItem
+        id: icon
+        size: 20 20
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 5
+        virtual: true
+        item-id: 2160
+        
+      Label
+        text: Home
+        anchors.left: icon.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 5
+        font: verdana-11px-rounded
+        color: #aaaaaa
 
     ScrollablePanel
-      id: categoryList
-      anchors.top: prev.bottom
+      id: categoriesList
+      anchors.top: homeButton.bottom
       anchors.left: parent.left
       anchors.right: parent.right
-      anchors.bottom: parent.bottom
-      vertical-scrollbar: categoryListScroll
-      margin: 1
+      anchors.bottom: searchPanel.top
+      vertical-scrollbar: leftScroll
+      margin-top: 5
       layout:
         type: verticalBox
         spacing: 1
 
     VerticalScrollBar
-      id: categoryListScroll
-      anchors.top: categoryList.top
-      anchors.bottom: categoryList.bottom
-      anchors.right: categoryList.right
+      id: leftScroll
+      anchors.top: categoriesList.top
+      anchors.bottom: categoriesList.bottom
+      anchors.right: categoriesList.right
       step: 14
       pixels-scroll: true
-      margin-right: 1
 
-  // Middle Panel: Offers List
+    UIWidget
+      id: searchPanel
+      height: 30
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin: 5
+      
+      TextEdit
+        id: searchInput
+        anchors.fill: parent
+        font: verdana-11px-rounded
+        !placeholder: tr('Type to search')
+        
+      UIWidget
+        id: searchIcon
+        size: 16 16
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-right: 5
+        image-source: /images/ui/icon-search
+        phantom: true
+
+  // 2. RIGHT PANEL (Content)
   UIWidget
-    id: middlePanel
-    anchors.top: parent.top
+    id: rightPanel
     anchors.left: leftPanel.right
-    anchors.bottom: parent.bottom
-    width: 320
-    margin-left: 10
-    margin-bottom: 30
-    background-color: #00000022
-    border-width: 1
-    border-color: #00000044
-
-    Label
-      text: Offers
-      anchors.top: parent.top
-      anchors.left: parent.left
-      anchors.right: parent.right
-      height: 20
-      text-align: center
-      font: verdana-11px-rounded
-      background-color: #00000044
-      margin: 1
-
-    ScrollablePanel
-      id: offersPanel
-      anchors.top: prev.bottom
-      anchors.left: parent.left
-      anchors.right: parent.right
-      anchors.bottom: parent.bottom
-      vertical-scrollbar: offersPanelScroll
-      margin: 1
-      layout:
-        type: verticalBox
-        spacing: 2
-
-    VerticalScrollBar
-      id: offersPanelScroll
-      anchors.top: offersPanel.top
-      anchors.bottom: offersPanel.bottom
-      anchors.right: offersPanel.right
-      step: 32
-      pixels-scroll: true
-
-  // Right Panel: Details
-  UIWidget
-    id: detailsPanel
-    anchors.top: parent.top
-    anchors.left: middlePanel.right
     anchors.right: parent.right
-    anchors.bottom: parent.bottom
-    margin-left: 10
-    margin-bottom: 30
-    background-color: #00000022
-    border-width: 1
-    border-color: #00000044
+    anchors.top: parent.top
+    anchors.bottom: bottomPanel.top
+    margin-left: 5
+    margin-bottom: 5
 
-    Label
-      text: Details
-      anchors.top: parent.top
-      anchors.left: parent.left
-      anchors.right: parent.right
-      height: 20
-      text-align: center
-      font: verdana-11px-rounded
-      background-color: #00000044
+    // HOME VIEW (Full Width)
+    UIWidget
+      id: homeView
+      anchors.fill: parent
+      visible: true
+      
+      UIWidget
+        id: banner
+        height: 180
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        background-color: #222222
+        border-width: 1
+        border-color: #000000
+        
+        Label
+          text: STORE BANNER (Place Image Here)
+          anchors.centerIn: parent
+          font: verdana-11px-rounded
+          color: #555555
+        
+      Label
+        text: Recently Added
+        anchors.top: banner.bottom
+        anchors.left: parent.left
+        margin-top: 10
+        font: Verdana Bold-11px
+        color: #aaaaaa
+        
+      ScrollablePanel
+        id: featuredList
+        anchors.top: prev.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        margin-top: 5
+        vertical-scrollbar: homeScroll
+        layout:
+          type: grid
+          cell-size: 220 64
+          cell-spacing: 5
+          flow: true
+          
+      VerticalScrollBar
+        id: homeScroll
+        anchors.top: featuredList.top
+        anchors.bottom: featuredList.bottom
+        anchors.right: featuredList.right
+        step: 30
+        pixels-scroll: true
 
-    // Selected Item Display
-    Item
-      id: selectedItemPreview
-      anchors.top: prev.bottom
-      anchors.horizontalCenter: parent.horizontalCenter
-      margin-top: 30
-      width: 64
-      height: 64
-      virtual: true
+    // SHOP VIEW (Categories + Details)
+    UIWidget
+      id: shopView
+      anchors.fill: parent
       visible: false
+      
+      UIWidget
+        id: detailsPanel
+        width: 220
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        background-color: #00000022
+        border-width: 1
+        border-color: #00000044
+        margin-left: 5
+        
+        Label
+          text: Product Details
+          anchors.top: parent.top
+          anchors.horizontalCenter: parent.horizontalCenter
+          margin-top: 10
+          font: Verdana Bold-11px
+    
+        UIItem
+          id: detailItem
+          size: 64 64
+          anchors.top: prev.bottom
+          anchors.horizontalCenter: parent.horizontalCenter
+          margin-top: 15
+          virtual: true
+    
+        Label
+          id: detailName
+          anchors.top: prev.bottom
+          anchors.left: parent.left
+          anchors.right: parent.right
+          margin-top: 10
+          text-align: center
+          font: Verdana Bold-11px
+          color: #e0e0e0
+    
+        Label
+          id: detailPrice
+          anchors.top: prev.bottom
+          anchors.left: parent.left
+          anchors.right: parent.right
+          margin-top: 5
+          text-align: center
+          color: #ffd700
+          font: verdana-11px-rounded
+    
+        Label
+          id: descLabel
+          text: Description:
+          anchors.top: prev.bottom
+          anchors.left: parent.left
+          margin-top: 15
+          margin-left: 10
+          color: #aaaaaa
+    
+        UITextEdit
+          id: detailDescription
+          anchors.top: prev.bottom
+          anchors.left: parent.left
+          anchors.right: parent.right
+          anchors.bottom: buyButton.top
+          margin: 5
+          margin-bottom: 10
+          editable: false
+          focusable: false
+          text-wrap: true
+          font: verdana-11px-rounded
+          background-color: alpha
+    
+        Button
+          id: buyButton
+          !text: tr('Buy')
+          anchors.bottom: parent.bottom
+          anchors.left: parent.left
+          anchors.right: parent.right
+          margin: 10
+          height: 30
+          enabled: false
 
-    Label
-      id: selectedItemName
-      anchors.top: prev.bottom
-      anchors.left: parent.left
-      anchors.right: parent.right
-      margin-top: 15
-      text-align: center
-      font: verdana-11px-rounded
-      text: "Select an offer"
+      ScrollablePanel
+        id: productList
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: detailsPanel.left
+        anchors.bottom: parent.bottom
+        vertical-scrollbar: prodScroll
+        layout:
+          type: grid
+          cell-size: 150 64
+          cell-spacing: 5
+          flow: true
+          
+      VerticalScrollBar
+        id: prodScroll
+        anchors.top: productList.top
+        anchors.bottom: productList.bottom
+        anchors.right: productList.right
+        step: 30
+        pixels-scroll: true
 
-    Label
-      id: selectedItemDescription
-      anchors.top: prev.bottom
-      anchors.left: parent.left
-      anchors.right: parent.right
-      anchors.bottom: buyButton.top
-      margin-top: 20
-      margin-left: 10
-      margin-right: 10
-      margin-bottom: 20
-      text-align: top
-      text-wrap: true
-      font: verdana-11px-monochrome
-      color: #aaaaaa
-
-    Label
-      id: selectedItemPrice
-      anchors.bottom: buyButton.top
-      anchors.horizontalCenter: parent.horizontalCenter
-      margin-bottom: 10
-      text-align: center
-      font: verdana-11px-rounded
-      color: #ffd700
-      text: ""
-
-    Button
-      id: buyButton
-      text: Buy
-      anchors.bottom: parent.bottom
-      anchors.horizontalCenter: parent.horizontalCenter
-      margin-bottom: 20
-      width: 120
-      enabled: false
-
-  // Bottom Bar
+  // 3. BOTTOM PANEL
   UIWidget
-    id: bottomBar
+    id: bottomPanel
+    height: 40
+    anchors.bottom: parent.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: parent.bottom
-    height: 25
-    background-color: #00000066
+    background-color: #00000044
+    border-top-width: 1
+    border-color: #00000044
+
+    UIItem
+      id: balanceIcon
+      item-id: 2160
+      size: 20 20
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.left: parent.left
+      margin-left: 15
+      virtual: true
 
     Label
       id: balanceLabel
-      anchors.left: parent.left
+      text: Loading...
       anchors.verticalCenter: parent.verticalCenter
-      margin-left: 10
-      text: "Balance: Loading..."
-      font: verdana-11px-rounded
+      anchors.left: balanceIcon.right
+      margin-left: 5
+      font: Verdana Bold-11px
       color: #ffd700
 
     Button
-      id: closeButton
-      text: Close
-      anchors.right: parent.right
+      id: getCoinsButton
+      !text: tr('Get Coins')
+      width: 80
       anchors.verticalCenter: parent.verticalCenter
-      margin-right: 5
-      width: 60
-      height: 20
+      anchors.left: balanceLabel.right
+      margin-left: 20
+      @onClick: modules.game_customstore.openBuyCoins()
+
+    Button
+      id: closeButton
+      !text: tr('Close')
+      width: 80
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.right: parent.right
+      margin-right: 10
       @onClick: modules.game_customstore.toggle()
+
+    Button
+      id: historyButton
+      !text: tr('History')
+      width: 80
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.right: closeButton.left
+      margin-right: 10
+      @onClick: modules.game_customstore.showHistory()
