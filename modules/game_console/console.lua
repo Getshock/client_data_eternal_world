@@ -431,13 +431,8 @@ function switchChatOnCall()
 end
 
 function disableChatOnCall()
-    if not g_game.isOnline() or modules.game_hotkeys.areHotkeysDisabled() then
-        return
-    end
-
-    if isChatEnabled() and not consoleToggleChat.isChecked then
-        toggleChat()
-    end
+    -- Escape key disabled for closing chat as per user request
+    return
 end
 
 function isChatEnabled()
