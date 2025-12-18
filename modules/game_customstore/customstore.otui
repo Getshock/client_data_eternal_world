@@ -259,7 +259,7 @@ CustomStoreWindow < MainWindow
         border-color: #000000
         
         UIWidget
-          image-source: /game_customstore/images/dragon
+          image-source: /game_customstore/images/store_main
           anchors.fill: parent
           image-smooth: true
         
