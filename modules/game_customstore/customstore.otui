@@ -229,7 +229,7 @@ CustomStoreWindow < MainWindow
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
         margin-right: 5
-        image-source: /images/ui/icon-search
+        image-source: /images/game/actionbar/lenshelp-icon-arrow-left
         phantom: true
 
   // 2. RIGHT PANEL (Content)
