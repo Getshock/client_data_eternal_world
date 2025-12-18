@@ -194,6 +194,8 @@ function Cyclopedia.loadBestiarySelectedCreature(data)
     UI.ListBase.CreatureInfo.ProgressBorder3:setTooltip(string.format(" %d / %d %s", data.killCounter,
         data.lastProgressKillCount, fullText))
     UI.ListBase.CreatureInfo.LeftBase.TrackCheck.raceId = data.id
+    UI.ListBase.CreatureInfo.LeftBase.TrackCheck.killCounter = data.killCounter
+    UI.ListBase.CreatureInfo.LeftBase.TrackCheck.maxKills = data.thirdDifficulty
 
     -- TODO investigate when it can be track-- idk when
     --[[     if data.currentLevel == 1 then

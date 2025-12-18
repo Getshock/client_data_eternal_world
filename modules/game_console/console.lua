@@ -163,6 +163,7 @@ local readOnlyButton = nil
 local readOnlyPanel = nil
 local activeactiveReadOnlyTabName = ""
 local readOnlyModeEnabled = false
+local temporaryChatMode = false
 
 local communicationSettings = {
     useIgnoreList = true,
@@ -338,7 +339,7 @@ function selectAll(consoleBuffer)
     end
 end
 
-function toggleChat()
+function toggleChat(temporary)
     if modules.game_interface.isInternalLocked() then
         return
     end
@@ -346,8 +347,14 @@ function toggleChat()
     consoleToggleChat.isChecked = not consoleToggleChat.isChecked
     if consoleToggleChat.isChecked then
         consoleToggleChat:setText(tr('Chat Off'))
+        temporaryChatMode = false
     else
-        consoleToggleChat:setText(tr('Chat On'))
+        temporaryChatMode = temporary or false
+        if temporaryChatMode then
+            consoleToggleChat:setText(tr('Chat On*'))
+        else
+            consoleToggleChat:setText(tr('Chat On'))
+        end
     end
     
     updateChatMode()
@@ -418,13 +425,8 @@ function switchChatOnCall()
         return
     end
 
-    if isChatEnabled() and consoleToggleChat.isChecked then
-        toggleChat()
-    else
-        local message = consoleTextEdit:getText()
-        if message == '' then
-            toggleChat()
-        end
+    if consoleToggleChat.isChecked then
+        toggleChat(true)
     end
 end
 
@@ -1403,6 +1405,10 @@ function sendCurrentMessage()
 
     -- send message
     sendMessage(message)
+
+    if temporaryChatMode then
+        toggleChat()
+    end
 end
 
 function addFilter(filter)

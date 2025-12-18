@@ -135,7 +135,7 @@ UIWidget
           text-auto-resize: true
           color: #C7C7C7
           @onCheckChange: |
-            g_game.sendStatusTrackerBestiary(self.raceId,self:isChecked())
+            modules.game_cyclopedia.Cyclopedia.onTrackerCheckChange(self.raceId, self:isChecked(), self.killCounter, self.maxKills)
         UICreature
           id: Sprite
           anchors.top: parent.top
