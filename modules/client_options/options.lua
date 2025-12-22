@@ -196,17 +196,21 @@ local function setup()
 
     -- load options
     for k, obj in pairs(options) do
-        local v = obj.value
+        -- Skip interdependent options to avoid race conditions during setup
+        -- They will be handled explicitly below
+        if k ~= 'mouseControlMode' and k ~= 'classicControl' and k ~= 'smartLeftClick' then
+            local v = obj.value
 
-        if type(v) == 'boolean' then
-            local value = g_settings.getBoolean(k)
-            setOption(k, value, true)
-        elseif type(v) == 'number' then
-            local value = g_settings.getNumber(k)
-            setOption(k, value, true)
-        elseif type(v) == 'string' then
-            local value = g_settings.getString(k)
-            setOption(k, value, true)
+            if type(v) == 'boolean' then
+                local value = g_settings.getBoolean(k)
+                setOption(k, value, true)
+            elseif type(v) == 'number' then
+                local value = g_settings.getNumber(k)
+                setOption(k, value, true)
+            elseif type(v) == 'string' then
+                local value = g_settings.getString(k)
+                setOption(k, value, true)
+            end
         end
     end
     
@@ -259,6 +263,19 @@ local function setup()
                 lootControlModeCombobox:setVisible(true)
             else
                 lootControlModeCombobox:setVisible(false)
+            end
+        end
+
+        -- Update checkboxes for dependent options since setOption('mouseControlMode') only updates settings/values
+        if panels.generalPanel then
+            local classicWidget = panels.generalPanel:recursiveGetChildById('classicControl')
+            if classicWidget and options.classicControl then
+                classicWidget:setChecked(options.classicControl.value)
+            end
+            
+            local smartWidget = panels.generalPanel:recursiveGetChildById('smartLeftClick')
+            if smartWidget and options.smartLeftClick then
+                smartWidget:setChecked(options.smartLeftClick.value)
             end
         end
     end, 100)
