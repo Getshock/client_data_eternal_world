@@ -1,0 +1,47 @@
+MiniWindow
+  id: voiceWindow
+  height: 80
+  width: 150
+  !text: tr('Voice Chat')
+  
+  MiniWindowContents
+    Label
+      id: statusLabel
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: volumeBg.left
+      margin-top: 5
+      margin-left: 5
+      text: Connected
+      color: #00ff00
+      font: verdana-11px-rounded
+      text-align: left
+
+    CheckBox
+      id: loopbackBox
+      anchors.top: statusLabel.bottom
+      anchors.left: parent.left
+      anchors.right: volumeBg.left
+      margin-top: 5
+      margin-left: 5
+      text: Ouvir retorno
+      font: verdana-11px-rounded
+
+    UIWidget
+      id: volumeBg
+      anchors.top: parent.top
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      width: 15
+      margin-top: 5
+      margin-bottom: 5
+      margin-right: 5
+      background-color: #222222
+      
+      UIWidget
+        id: volumeBar
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: 0
+        background-color: #ffff00

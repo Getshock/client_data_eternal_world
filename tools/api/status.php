@@ -130,7 +130,7 @@ elseif ($requestType === 'showoff') {
 
     $response = array(
         "image" => "https://raw.githubusercontent.com/mehah/otclient/main/data/images/clienticon.png",
-        "title" => "2",
+        "title" => "OTClient - Redemption",
         "description" => "Otclient is an alternative Tibia client for usage with otserv. It aims to be complete and flexible, for that it uses LUA scripting for all game interface functionality and configurations files with a syntax similar to CSS for the client interface design."
     );
     echo json_encode($response);

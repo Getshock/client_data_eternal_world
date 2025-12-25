@@ -40,6 +40,7 @@ Module
     - game_unjustifiedpoints
     - game_shaders
     - game_attachedeffects
+    - game_paperdolls
     - game_stash
     - game_healthcircle
     - game_shop
@@ -52,5 +53,6 @@ Module
     - game_rewardwall
     - game_test
     - game_customstore
+    - game_voice
   @onLoad: init()
   @onUnload: terminate()
